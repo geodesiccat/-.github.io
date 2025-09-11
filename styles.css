@@ -1,68 +1,124 @@
-/* ========== 基础样式 ========== */
+/* 全局样式重置与基础设置 */
 :root {
-  --primary-color: #8b0000;
-  --secondary-color: #f0e6d2;
-  --text-color: #333;
-  --light-bg: rgba(255, 255, 255, 0.9);
-  --shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  --primary: #1a5e8c; /* 主色调：深蓝，体现数学严谨与传统文化厚重 */
+  --secondary: #e67e22; /* 辅助色：琥珀色，用于强调与交互元素 */
+  --accent: #c0392b; /* 强调色：朱红，用于重要标记 */
+  --light: #f8f9fa; /* 浅色背景 */
+  --dark: #2c3e50; /* 深色文本 */
+  --gray: #7f8c8d; /* 灰色文本 */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 基础阴影 */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡曲线 */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* 平滑滚动 */
 }
 
 body {
-  font-family: 'Noto Serif SC', serif;
-  color: var(--text-color);
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
+  font-family: "Noto Serif SC", "Source Han Serif", serif; /* 衬线字体，适合传统文化主题 */
+  line-height: 1.8;
+  color: var(--dark);
+  background-color: #f5f5f0; /* 米白色背景，营造古朴感 */
+  padding-bottom: 50px;
 }
 
-/* ========== 布局样式 ========== */
+/* 龙纹背景优化 */
 .dragon-bg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('images/dragon-bg.jpg') no-repeat center;
+  background-image: url('images/dragon-bg.jpg');
   background-size: cover;
-  opacity: 0.1;
+  background-position: center;
+  background-attachment: fixed; /* 固定背景，增强沉浸感 */
   z-index: -1;
+  opacity: 0.12; /* 降低透明度，避免干扰内容阅读 */
+  filter: sepia(20%); /* 增加复古色调 */
 }
 
+/* 主容器样式 */
 .container {
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 2rem;
-  background-color: var(--light-bg);
+  background-color: rgba(255, 255, 255, 0.92); /* 半透明白色背景，兼顾层次感与可读性 */
+  border-radius: 12px;
   box-shadow: var(--shadow);
-  border-radius: 8px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
-/* ========== 头部样式 ========== */
+/* 头部样式 */
 header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* 适配小屏幕 */
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
   text-align: center;
-  padding: 2rem 0;
+  flex: 1;
+  min-width: 300px;
 }
 
 .highlight {
-  color: var(--primary-color);
-  font-weight: bold;
+  color: var(--accent);
+  position: relative;
 }
 
-/* ========== 太极图标样式 ========== */
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--secondary);
+  border-radius: 3px;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: var(--gray);
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+}
+
+/* 太极图标优化 */
 .taiji-icon {
   width: 80px;
   height: 80px;
-  margin: 0 auto;
-  background: url('images/taiji.png') no-repeat center;
+  background-image: url('images/taiji.png');
   background-size: contain;
-  animation: spin 8s linear infinite;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: spin 12s linear infinite; /*  slower rotation for elegance */
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: var(--transition);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(26, 94, 140, 0.3);
 }
 
 .taiji-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(30deg);
+  box-shadow: 0 0 20px rgba(26, 94, 140, 0.5);
 }
 
 @keyframes spin {
@@ -70,108 +126,191 @@ header {
   to { transform: rotate(360deg); }
 }
 
-/* ========== 数字导航网格 ========== */
+/* 介绍部分样式 */
+.intro {
+  font-size: 1.1rem;
+  padding: 1.5rem;
+  background-color: rgba(248, 249, 250, 0.8);
+  border-left: 4px solid var(--primary);
+  margin-bottom: 2rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* 数学公式样式 */
+.mathjax {
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: rgba(248, 249, 250, 0.5);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.mathjax p {
+  margin-top: 0.8rem;
+  color: var(--dark);
+}
+
+/* 数字导航网格 */
 .number-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 响应式网格 */
   gap: 1.5rem;
-  margin: 3rem 0;
+  margin: 2.5rem 0;
 }
 
 .number-card {
-  background: linear-gradient(135deg, #f8f4e9 0%, #e8dfca 100%);
-  border: 1px solid #d4a76a;
-  border-radius: 8px;
+  background-color: var(--light);
+  border-radius: 10px;
   padding: 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.number-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transition: var(--transition);
 }
 
 .number-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #e8dfca 0%, #d4b896 100%);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary);
+}
+
+.number-card:hover::before {
+  transform: scaleX(1);
 }
 
 .number {
-  font-size: 2.5em;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+  font-family: "Noto Sans SC", sans-serif;
 }
 
-/* ========== 内容区域 ========== */
+.number-card h3 {
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.number-card p {
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+/* 内容区域样式 */
 .content-section {
-  display: none; /* 默认隐藏 */
+  display: none;
   padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  border-left: 5px solid var(--primary-color);
-  margin-top: 2rem;
+  background-color: var(--light);
+  border-radius: 10px;
+  margin: 2rem 0;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content-section h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gray);
+  font-size: 1.8rem;
 }
 
 .float-right {
+  max-width: 250px;
   float: right;
-  margin: 0 0 1rem 1rem;
-  max-width: 150px;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.float-right:hover {
+  transform: scale(1.05);
+}
+
+.content-section p {
+  margin-bottom: 1rem;
+  text-align: justify;
 }
 
 .quote {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: rgba(230, 126, 34, 0.1);
+  border-left: 4px solid var(--secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.quote p {
   font-style: italic;
-  color: #666;
-  border-left: 3px solid #d4a76a;
-  padding-left: 1rem;
-  margin: 1.5rem 0;
+  color: var(--dark);
+  font-size: 1.1rem;
 }
 
-/* ========== 数学公式样式 ========== */
-.math-frac {
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  margin: 0 0.5rem;
-}
-
-.math-numerator {
-  border-bottom: 1px solid var(--text-color);
-  padding: 0 0.5rem;
-}
-
-/* ========== 链接与按钮 ========== */
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.back-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: var(--secondary-color);
-  border-radius: 5px;
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  transition: background 0.3s;
-}
-
-.back-button:hover {
-  background: #d4b896;
-  text-decoration: none;
-}
-
-/* ========== 响应式设计 ========== */
-@media (max-width: 768px) {
+/* 响应式设计调整 */
+@media (max-width: 992px) {
   .container {
-    padding: 1rem;
+    padding: 1.5rem;
     margin: 1rem;
   }
   
-  .number-grid {
-    grid-template-columns: repeat(2, 1fr);
+  h1 {
+    font-size: 2rem;
   }
   
+  .number-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
   header {
-    padding: 1rem 0;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .taiji-icon {
+    margin-bottom: 1rem;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .float-right {
+    float: none;
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+    display: block;
+  }
+  
+  .number-card {
+    padding: 1rem;
+  }
+  
+  .number {
+    font-size: 1.8rem;
   }
 }
