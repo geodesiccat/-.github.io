@@ -7,6 +7,22 @@ body {
     margin: 0;
     padding: 0;
 }
+<style>
+  .math-frac {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .math-numerator {
+    border-bottom: 1px solid;
+    padding: 0 5px;
+  }
+</style>
+
+<div class="math-frac">
+  <div class="math-numerator">∂f</div>
+  <div>∂x</div>
+</div>
 /* 卡片链接样式 */
 .card-link {
     text-decoration: none;  /* 去除下划线 */
