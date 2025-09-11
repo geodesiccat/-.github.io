@@ -1,133 +1,177 @@
+/* ========== 基础样式 ========== */
+:root {
+  --primary-color: #8b0000;
+  --secondary-color: #f0e6d2;
+  --text-color: #333;
+  --light-bg: rgba(255, 255, 255, 0.9);
+  --shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
 
-/* 基础样式 */
 body {
-    font-family: 'Noto Serif SC', serif;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-}
-<style>
-  .math-frac {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .math-numerator {
-    border-bottom: 1px solid;
-    padding: 0 5px;
-  }
-</style>
-
-<div class="math-frac">
-  <div class="math-numerator">∂f</div>
-  <div>∂x</div>
-</div>
-/* 卡片链接样式 */
-.card-link {
-    text-decoration: none;  /* 去除下划线 */
-    color: inherit;         /* 继承父元素颜色 */
-    display: block;          /* 让整个卡片可点击 */
+  font-family: 'Noto Serif SC', serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
 }
 
-/* 返回按钮样式 */
-.back-button {
-    display: inline-block;
-    padding: 8px 15px;
-    background: #f0e6d2;
-    border-radius: 5px;
-    color: #8b0000;
-    margin-bottom: 20px;
-}
-.back-button:hover {
-    background: #d4b896;
-}
+/* ========== 布局样式 ========== */
 .dragon-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('images/dragon-bg.jpg') no-repeat center;
-    background-size: cover;
-    opacity: 0.1;
-    z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('images/dragon-bg.jpg') no-repeat center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: -1;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--light-bg);
+  box-shadow: var(--shadow);
+  border-radius: 8px;
 }
 
+/* ========== 头部样式 ========== */
 header {
-    text-align: center;
-    padding: 30px 0;
+  text-align: center;
+  padding: 2rem 0;
 }
 
 .highlight {
-    color: #c00;
-    font-weight: bold;
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
-/* 数字导航网格 */
+/* ========== 太极图标样式 ========== */
+.taiji-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  background: url('images/taiji.png') no-repeat center;
+  background-size: contain;
+  animation: spin 8s linear infinite;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.taiji-icon:hover {
+  transform: scale(1.1);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========== 数字导航网格 ========== */
 .number-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin: 30px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
 }
 
 .number-card {
-    background: #f8f4e9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
+  background: linear-gradient(135deg, #f8f4e9 0%, #e8dfca 100%);
+  border: 1px solid #d4a76a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .number-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    background: #f0e6d2;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #e8dfca 0%, #d4b896 100%);
 }
 
 .number {
-    font-size: 2em;
-    color: #8b0000;
-    margin-bottom: 10px;
+  font-size: 2.5em;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
-/* 内容区 */
+/* ========== 内容区域 ========== */
 .content-section {
-    display: none; /* 默认隐藏 */
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    margin-top: 20px;
+  display: none; /* 默认隐藏 */
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  border-left: 5px solid var(--primary-color);
+  margin-top: 2rem;
 }
 
 .float-right {
-    float: right;
-    margin: 0 0 15px 15px;
-    max-width: 150px;
+  float: right;
+  margin: 0 0 1rem 1rem;
+  max-width: 150px;
 }
 
 .quote {
-    font-style: italic;
-    color: #666;
-    border-left: 3px solid #8b0000;
-    padding-left: 15px;
-    margin: 20px 0;
+  font-style: italic;
+  color: #666;
+  border-left: 3px solid #d4a76a;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
 }
 
-/* 响应式设计 */
+/* ========== 数学公式样式 ========== */
+.math-frac {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 0.5rem;
+}
+
+.math-numerator {
+  border-bottom: 1px solid var(--text-color);
+  padding: 0 0.5rem;
+}
+
+/* ========== 链接与按钮 ========== */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  transition: background 0.3s;
+}
+
+.back-button:hover {
+  background: #d4b896;
+  text-decoration: none;
+}
+
+/* ========== 响应式设计 ========== */
 @media (max-width: 768px) {
-    .number-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .number-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  header {
+    padding: 1rem 0;
+  }
 }
