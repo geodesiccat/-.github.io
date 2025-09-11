@@ -99,6 +99,7 @@
   <!-- 主容器 -->
   <div class="container">
     <!-- 标题与太极 -->
+  
     <header>
       <div class="taiji-icon" onclick="toggleMenu()"></div>
       <h1>中华数学<span class="highlight">十维</span>之道</h1>
@@ -130,6 +131,21 @@
     <!-- 1-10数字导航 -->
     <div class="number-grid">
       <div class="number-card" onclick="openSection('yi')">
+
+  <!-- 添加 "0" 的数字导航卡片 -->
+  <div class="number-card" onclick="openSection('ling')">
+    <div class="number">零</div>
+    <h3>混沌初开</h3>
+    <p>数学知识的起始空白，孕育一切可能，如同宇宙未诞生前的混沌状态。</p>
+  </div>
+  <div class="number-card" onclick="openSection('yi')">
+    <div class="number">壹</div>
+    <h3>太极</h3>
+    <p>函数之本源</p>
+  </div>
+  <!-- 其余 1 - 10 的数字导航卡片保持不变 -->
+  <!-- ...... -->
+</div>
         <div class="number">壹</div>
         <h3>太极</h3>
         <p>函数之本源</p>
@@ -180,7 +196,16 @@
         <p>应用之圆满</p>
       </div>
     </div>
-
+     <!-- 内容区 - 混沌初开（零） -->
+<section id="ling" class="content-section">
+  <h2>零 · 混沌初开</h2>
+  <img src="images/chaos.jpg" alt="混沌意象图" class="float-right" /> <!-- 这里假设你有一张代表混沌的图片，可自行替换合适的图片 -->
+  <p>在中华数学之道的体系里，“0”象征着最初的混沌状态，是一切数学知识的起始点，就如同宇宙在诞生之前，尚无任何具象的形态与规则，充满了无尽的未知与可能性。它是一种空白，却又蕴含着能够孕育出后续所有数学概念、规律的潜力。</p>
+  <p>从更宽泛的角度理解，数学的发展正是从这片“混沌”中逐渐明晰起来的。例如，最开始人们对数量的认知或许只是模糊的多与少，并没有精确的数字概念，而“0”的出现，如同点亮了黑暗中的第一缕曙光，为后续整数、分数、小数等各种数系的构建奠定了基础，也为函数、几何等诸多数学分支的萌芽提供了最初的土壤。</p>
+  <div class="quote">
+    <p>"万物生于有，有生于无" ——《道德经》（这里引用道德经来体现从无到有的思想，与“0”象征的混沌初开呼应）</p>
+  </div>
+</section>
     <!-- 内容区 - 太极（壹） -->
     <section id="yi" class="content-section">
       <h2>壹 · 太极</h2>
