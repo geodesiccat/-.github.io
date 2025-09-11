@@ -1,88 +1,95 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中华数学之道</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* 内嵌太极动画样式 */
-        .taiji-icon {
-            width: 80px;
-            height: 80px;
-            background: url('images/taiji.png') no-repeat center;
-            background-size: contain;
-            animation: spin 8s linear infinite;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .taiji-icon:hover {
-            transform: scale(1.1);
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中华数学之道</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* 内嵌太极动画样式 */
+    .taiji-icon {
+      width: 80px;
+      height: 80px;
+      background: url('images/taiji.png') no-repeat center;
+      background-size: contain;
+      animation: spin 8s linear infinite;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .taiji-icon:hover {
+      transform: scale(1.1);
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-    <!-- 龙纹背景 -->
-    <div class="dragon-bg"></div>
+  <!-- 龙纹背景 -->
+  <div class="dragon-bg"></div>
 
-    <!-- 主容器 -->
-    <div class="container">
-        <!-- 标题与太极 -->
-        <header>
-            <div class="taiji-icon" onclick="toggleMenu()"></div>
-            <h1>中华数学<span class="highlight">十维</span>之道</h1>
-            <p>从太极到微积分 · 守正创新</p>
-        </header>
+  <!-- 主容器 -->
+  <div class="container">
+    <!-- 标题与太极 -->
+    <header>
+      <div class="taiji-icon" onclick="toggleMenu()"></div>
+      <h1>中华数学<span class="highlight">十维</span>之道</h1>
+      <p>从太极到微积分 · 守正创新</p>
+    </header>
 
-        <!-- 1-10数字导航 -->
-        <div class="number-grid">
-            <div class="number-card" onclick="openSection('yi')">
-                <div class="number">壹</div>
-                <h3>太极</h3>
-                <p>函数之本源</p>
-            </div>
-            <div class="number-card" onclick="openSection('er')">
-                <div class="number">贰</div>
-                <h3>两仪</h3>
-                <p>微分与积分</p>
-            </div>
-            <!-- 3-10省略，结构相同 -->
-            <div class="number-card" onclick="openSection('shi')">
-                <div class="number">拾</div>
-                <h3>十全</h3>
-                <p>应用之圆满</p>
-            </div>
-        </div>
-
-        <!-- 内容区 -->
-        <section id="yi" class="content-section">
-            <h2>壹 · 太极</h2>
-            <img src="images/taiji.png" alt="太极图" class="float-right">
-            <p>函数 <code>f(x)</code> 如同太极，是未分化的整体。所有变化规律都蕴含其中。</p>
-            <div class="quote">
-                <p>"易有太极，是生两仪" ——《周易》</p>
-            </div>
-        </section>
+    <!-- 1-10数字导航 -->
+    <div class="number-grid">
+      <div class="number-card" onclick="openSection('yi')">
+        <div class="number">壹</div>
+        <h3>太极</h3>
+        <p>函数之本源</p>
+      </div>
+      <div class="number-card" onclick="openSection('er')">
+        <div class="number">贰</div>
+        <h3>两仪</h3>
+        <p>微分与积分</p>
+      </div>
+      <!-- 3-10省略，结构相同 -->
+      <div class="number-card" onclick="openSection('shi')">
+        <div class="number">拾</div>
+        <h3>十全</h3>
+        <p>应用之圆满</p>
+      </div>
+      <div class="number-card">
+        <a href="taiji.html" class="card-link">
+          <div class="number">壹</div>
+          <h3>太极</h3>
+          <p>函数之本源</p>
+        </a>
+      </div>
     </div>
 
-    <!-- 简单脚本 -->
-    <script>
-        function openSection(sectionId) {
-            // 隐藏所有内容区
-            document.querySelectorAll('.content-section').forEach(sec => {
-                sec.style.display = 'none';
-            });
-            // 显示当前选择的内容
-            document.getElementById(sectionId).style.display = 'block';
-        }
-        // 默认显示第一部分
-        document.addEventListener('DOMContentLoaded', () => {
-            openSection('yi');
-        });
-    </script>
+    <!-- 内容区 -->
+    <section id="yi" class="content-section">
+      <h2>壹 · 太极</h2>
+      <img src="images/taiji.png" alt="太极图" class="float-right">
+      <p>函数 <code>f(x)</code> 如同太极，是未分化的整体。所有变化规律都蕴含其中。</p>
+      <div class="quote">
+        <p>"易有太极，是生两仪" ——《周易》</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 简单脚本 -->
+  <script>
+    function openSection(sectionId) {
+      // 隐藏所有内容区
+      document.querySelectorAll('.content-section').forEach(sec => {
+        sec.style.display = 'none';
+      });
+      // 显示当前选择的内容
+      document.getElementById(sectionId).style.display = 'block';
+    }
+    // 默认显示第一部分
+    document.addEventListener('DOMContentLoaded', () => {
+      openSection('yi');
+    });
+  </script>
 </body>
 </html>
