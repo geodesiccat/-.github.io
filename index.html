@@ -37,7 +37,15 @@
       <h1>中华数学<span class="highlight">十维</span>之道</h1>
       <p>从太极到微积分 · 守正创新</p>
     </header>
+    <!-- 引入MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+    <!-- 行内公式 -->
+    <p>勾股定理：\\(a^2 + b^2 = c^2\\)</p>
+
+    <!-- 块级公式 -->
+    <div>\[ \frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x) \]</div>
     <!-- 1-10数字导航 -->
     <div class="number-grid">
       <div class="number-card" onclick="openSection('yi')">
