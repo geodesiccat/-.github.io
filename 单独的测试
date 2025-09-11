@@ -1,1 +1,109 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoGebra独立测试页</title>
+    <!-- 仅引入GeoGebra核心库 -->
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <style>
+        /* 极简样式，只保证GGB控件展示 */
+        body {
+            margin: 20px;
+            font-family: sans-serif;
+        }
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        /* GGB控件容器 */
+        #ggbTest {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        /* 测试按钮样式 */
+        .test-btns {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .test-btn {
+            padding: 8px 16px;
+            background: #1a5e8c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-btn:hover {
+            background: #144b6d;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>GeoGebra独立测试</h1>
+        <p>点击按钮测试不同GGB功能，可直接在控件内操作（工具栏、代数区）</p>
+        
+        <!-- 测试功能按钮 -->
+        <div class="test-btns">
+            <button class="test-btn" onclick="drawFunction('f(x)=sin(x)')">画正弦函数</button>
+            <button class="test-btn" onclick="drawFunction('g(x)=x²-2x+1')">画二次函数</button>
+            <button class="test-btn" onclick="drawPoint('P=(3,4)')">画点(3,4)</button>
+            <button class="test-btn" onclick="clearGGB()">清空内容</button>
+        </div>
+
+        <!-- GGB控件容器 -->
+        <div id="ggbTest"></div>
+    </div>
+
+    <script>
+        // 1. 初始化GGB实例（绘图模式，带工具栏和代数区）
+        const ggbTest = new GGBApplet({
+            appName: "graphing",       // 应用类型：绘图（还有"geometry"几何、"3d"三维等）
+            width: "100%",             // 宽度自适应容器
+            height: 600,               // 固定高度
+            showMenuBar: false,        // 隐藏菜单栏（简化测试）
+            showToolBar: true,         // 显示工具栏（可手动画图形）
+            showAlgebraInput: true,    // 显示代数输入框（可手动输公式）
+            enableShiftDragZoom: true, // 按住Shift拖拽缩放
+            enableRightClick: true,    // 右键操作（修改属性等）
+            language: "zh-CN"          // 中文界面
+        }, true);
+
+        // 2. 页面加载后嵌入GGB
+        window.onload = function() {
+            ggbTest.inject('ggbTest'); // 注入到id为"ggbTest"的容器
+            // 初始画一个简单直线：y=x
+            ggbTest.evalCommand('h(x)=x');
+        }
+
+        // 3. 测试函数：画函数图像
+        function drawFunction(expr) {
+            try {
+                ggbTest.evalCommand(expr); // 执行GGB指令（画函数）
+            } catch (e) {
+                alert('函数表达式错误：' + e.message);
+            }
+        }
+
+        // 4. 测试函数：画点
+        function drawPoint(pointExpr) {
+            try {
+                ggbTest.evalCommand(pointExpr); // 执行GGB指令（画点）
+            } catch (e) {
+                alert('点坐标错误：' + e.message);
+            }
+        }
+
+        // 5. 测试函数：清空GGB内容
+        function clearGGB() {
+            ggbTest.reset(); // 重置GGB（清空所有内容）
+        }
+    </script>
+</body>
+</html>
