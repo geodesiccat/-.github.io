@@ -7,7 +7,25 @@ body {
     margin: 0;
     padding: 0;
 }
+/* 卡片链接样式 */
+.card-link {
+    text-decoration: none;  /* 去除下划线 */
+    color: inherit;         /* 继承父元素颜色 */
+    display: block;          /* 让整个卡片可点击 */
+}
 
+/* 返回按钮样式 */
+.back-button {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #f0e6d2;
+    border-radius: 5px;
+    color: #8b0000;
+    margin-bottom: 20px;
+}
+.back-button:hover {
+    background: #d4b896;
+}
 .dragon-bg {
     position: fixed;
     top: 0;
