@@ -1,13 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>中华数学之道</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* 内嵌太极动画样式 */
-    .taiji-icon {
+    /* 全局样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 龙纹背景样式 */
+   .dragon-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/dragon-bg.jpg') no-repeat center;
+      background-size: cover;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    /* 主容器样式 */
+   .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* 标题与太极图标样式 */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+   .taiji-icon {
       width: 80px;
       height: 80px;
       background: url('images/taiji.png') no-repeat center;
@@ -16,15 +52,97 @@
       cursor: pointer;
       transition: transform 0.3s;
     }
-    .taiji-icon:hover {
+
+   .taiji-icon:hover {
       transform: scale(1.1);
     }
+
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      color: #333;
+    }
+
+   .highlight {
+      color: #0099cc;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* 引入MathJax相关样式 */
+   .mathjax {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* 1-10数字导航样式 */
+   .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+   .number-card {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+   .number-card:hover {
+      transform: translateY(-5px);
+    }
+
+   .number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0099cc;
+      margin-bottom: 10px;
+    }
+
+   .content-section {
+      display: none;
+      padding: 30px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+   .content-section img {
+      max-width: 300px;
+      float: right;
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+   .quote {
+      border-left: 3px solid #0099cc;
+      padding-left: 15px;
+      margin-top: 20px;
+      font-style: italic;
     }
   </style>
 </head>
+
 <body>
   <!-- 龙纹背景 -->
   <div class="dragon-bg"></div>
@@ -41,63 +159,102 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <!-- 行内公式 -->
-    <p>勾股定理：\\(a^2 + b^2 = c^2\\)</p>
+    <!-- 整体理念阐述 -->
+    <div class="intro">
+      <p>中华传统文化蕴含着深厚的智慧，其中太极理念所展现的阴阳平衡、万物相生的思想，与数学中的诸多概念有着奇妙的联系。我们将以这独特的视角，通过“中华数学十维之道”，为你揭示从古老哲学到现代微积分的知识脉络，探索守正创新之路。</p>
+    </div>
 
-    <!-- 块级公式 -->
-    <div>\[ \frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x) \]</div>
+    <!-- 行内公式示例 -->
+    <p class="mathjax">勾股定理：\\(a^2 + b^2 = c^2\\)，它作为几何领域的基础定理，如同太极图中阴阳分明却又相互依存的两部分，是构建整个几何体系的关键基石，展现了数学内在的简洁与和谐之美。</p>
+
+    <!-- 块级公式示例 -->
+    <div class="mathjax">
+      \[ \frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x) \]
+      <p>此为微积分基本定理，揭示了微分与积分这一对看似相反操作实则紧密相连的关系，恰似太极中阴阳相互转化，是理解函数变化、求解诸多实际问题的核心所在。</p>
+    </div>
+
     <!-- 1-10数字导航 -->
     <div class="number-grid">
       <div class="number-card" onclick="openSection('yi')">
         <div class="number">壹</div>
         <h3>太极</h3>
-        <p>函数之本源</p>
+        <p>函数之本源，象征着万物未分的混沌初始状态，所有数学概念与规律皆由此孕育而生，正如函数 <code>f(x)</code> 蕴含着无尽变化的可能。</p>
       </div>
       <div class="number-card" onclick="openSection('er')">
         <div class="number">贰</div>
         <h3>两仪</h3>
-        <p>微分与积分</p>
+        <p>对应数学中的基础分类与二元对立概念，如微分与积分、自变量与因变量等，它们相互对立又相互依存，如同阴阳两极，共同构成了数学分析的基础框架。</p>
       </div>
-      <!-- 3-10省略，结构相同 -->
+      <div class="number-card" onclick="openSection('san')">
+        <div class="number">叁</div>
+        <h3>三才</h3>
+        <p>可类比数学中函数的三要素——定义域、值域、对应法则，这三者缺一不可，共同确定了函数的全貌，就像天、地、人三才共同塑造了世间万物的运行秩序。</p>
+      </div>
+      <div class="number-card" onclick="openSection('si')">
+        <div class="number">肆</div>
+        <h3>四象</h3>
+        <p>象征着数学中常见的四种基本情况或状态分类，例如函数的增减性可分为增、减、先增后减、先减后增这四种典型状态，如同四象在四季变化中展现出的不同特征，为我们分析函数特性提供了清晰的视角。</p>
+      </div>
+      <div class="number-card" onclick="openSection('wu')">
+        <div class="number">伍</div>
+        <h3>五行</h3>
+        <p>可联系到数学里五种基本运算——加、减、乘、除、乘方（或开方），它们相互作用、相互制约，如同五行元素相生相克，构建起了丰富多样的数学表达式与运算体系。</p>
+      </div>
+      <div class="number-card" onclick="openSection('liu')">
+        <div class="number">陆</div>
+        <h3>六合</h></p>
+        <p>可理解为数学中多个维度的综合考量，比如在研究函数时，要同时兼顾定义域、值域、奇偶性、周期性、有界性、单调性这六个方面，全方位地把握函数的性质，恰似六合涵盖了天地四方的整体概念。</p>
+      </div>
+      <div class="number-card" onclick="openSection('qi')">
+        <div class="number">柒</div>
+        <h3>七星</h3>
+        <p>与数学里的七类常见函数相对应，例如常数函数、幂函数、指数函数、对数函数、三角函数、反三角函数以及分段函数等，它们各有特点，如同天空中的七星闪耀，在不同的数学问题中发挥着独特的作用。</p>
+      </div>
+      <div class="number-card" onclick="openSection('ba')">
+        <div class="number">捌</div>
+        <h3>八卦</h3>
+        <p>可象征数学中的八类重要的数学关系或定理，比如相似关系、全等关系、平行关系、垂直关系等几何关系，以及等价关系、序关系等代数关系，它们相互交织，如同八卦所蕴含的复杂变化，构建起了数学知识体系的网络。</p>
+      </div>
+      <div class="number-card" onclick="openSection('jiu')">
+        <div class="number">玖</div>
+        <h3>九宫</h3>
+        <p>寓意着数学知识的九宫布局，我们可以把不同的数学分支或知识点按照九宫格的形式进行分类整理，例如代数、几何、分析等不同领域占据九宫的不同方位，彼此相互关联又各有侧重，形成一个有机的整体。</p>
+      </div>
       <div class="number-card" onclick="openSection('shi')">
         <div class="number">拾</div>
         <h3>十全</h3>
-        <p>应用之圆满</p>
-      </div>
-      <div class="number-card">
-        <a href="taiji.html" class="card-link">
-          <div class="number">壹</div>
-          <h3>太极</h3>
-          <p>函数之本源</p>
-        </a>
+        <p>代表着将前面所述的各个数学维度进行全面整合与融会贯通，实现数学知识在实际应用中的圆满运用，从理论到实践，完成知识闭环，展现中华数学之道的博大精深与实用性。</p>
       </div>
     </div>
 
-    <!-- 内容区 -->
+    <!-- 内容区 - 太极（壹） -->
     <section id="yi" class="content-section">
       <h2>壹 · 太极</h2>
       <img src="images/taiji.png" alt="太极图" class="float-right">
-      <p>函数 <code>f(x)</code> 如同太极，是未分化的整体。所有变化规律都蕴含其中。</p>
+      <p>在中华数学之道中，函数 <code>f(x)</code> 被视为如同太极一般的存在。太极是宇宙万物未分化的整体，蕴含着无尽的可能性与变化规律，尚未呈现出阴阳分明的状态。而函数在初始阶段，同样是一个抽象的、包含着各种潜在变化的数学对象，其自变量 <code>x</code> 的每一个取值，都可能对应着因变量 <code>f(x)</code> 的不同结果，就如同太极中阴阳相互交融，随时可依据一定条件展现出不同的形态。</p>
+      <p>从哲学角度看，“易有太极，是生两仪”，太极作为根源，衍生出了后续丰富多样的世界。在数学里，函数亦是众多数学概念与理论的源头，后续的微分、积分，函数的各种性质研究等，皆建立在函数这一基础之上，它是开启数学分析大门的钥匙。</p>
       <div class="quote">
         <p>"易有太极，是生两仪" ——《周易》</p>
       </div>
     </section>
+
+    <!-- 简单脚本 -->
+    <script>
+      function openSection(sectionId) {
+        // 隐藏所有内容区
+        document.querySelectorAll('.content-section').forEach(sec => {
+          sec.style.display = 'none';
+        });
+        // 显示当前选择的内容
+        document.getElementById(sectionId).style.display = 'block';
+      }
+      // 默认显示第一部分
+      document.addEventListener('DOMContentLoaded', () => {
+        openSection('yi');
+      });
+    </script>
   </div>
 
-  <!-- 简单脚本 -->
-  <script>
-    function openSection(sectionId) {
-      // 隐藏所有内容区
-      document.querySelectorAll('.content-section').forEach(sec => {
-        sec.style.display = 'none';
-      });
-      // 显示当前选择的内容
-      document.getElementById(sectionId).style.display = 'block';
-    }
-    // 默认显示第一部分
-    document.addEventListener('DOMContentLoaded', () => {
-      openSection('yi');
-    });
-  </script>
 </body>
+
 </html>
