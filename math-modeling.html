@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学建模 - 数学理论与实践</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <style>
+        /* 基础样式保持与首页一致 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '微软雅黑', 'Arial', sans-serif;
+        }
+        body {
+            background: #f6f8fa;
+            background-image: url('images/bg-home.png');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            color: #1a5e8c;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav li {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .nav li:hover, .nav li.active {
+            background: #eaf6ff;
+            color: #1a5e8c;
+            font-weight: bold;
+        }
+
+        /* 主容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* 标题卡片（保持原有风格并强化） */
+        .title-card {
+            background: linear-gradient(135deg, #eaf6ff 0%, #f0f7ff 100%);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 16px rgba(26,94,140,0.1);
+            border: 1px solid #e0e7ef;
+        }
+        .title-card .icon {
+            font-size: 4rem;
+            color: #1a5e8c;
+            margin-bottom: 1.5rem;
+        }
+        .title-card h2 {
+            font-size: 2.2rem;
+            color: #1a5e8c;
+            margin-bottom: 1rem;
+        }
+        .title-card p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* 核心内容区：三栏布局（响应式） */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 步骤卡片样式 */
+        .step-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #1a5e8c;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(26,94,140,0.1);
+        }
+        .step-card .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #1a5e8c;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .step-card h3 {
+            color: #1a5e8c;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .step-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .step-card .tip {
+            font-size: 0.95rem;
+            color: #1a5e8c;
+            background: #eaf6ff;
+            padding: 0.8rem;
+            border-radius: 6px;
+            border-left: 3px solid #144a6d;
+        }
+
+        /* 案例展示区 */
+        .cases-section {
+            margin: 4rem 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: #1a5e8c;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #1a5e8c;
+            border-radius: 3px;
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        @media (max-width: 768px) {
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .case-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            transition: transform 0.3s;
+        }
+        .case-card:hover {
+            transform: translateY(-5px);
+        }
+        .case-header {
+            background: #1a5e8c;
+            color: white;
+            padding: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .case-body {
+            padding: 1.5rem;
+        }
+        .case-body p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .case-body .highlight {
+            color: #1a5e8c;
+            font-weight: bold;
+            background: linear-gradient(120deg, #eaf6ff 0%, #eaf6ff 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0.4em;
+            background-position: 0 88%;
+        }
+
+        /* 思维方法区 */
+        .thinking-methods {
+            background: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 3rem;
+        }
+        .method-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .method-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        .method-item {
+            display: flex;
+            gap: 1rem;
+        }
+        .method-icon {
+            color: #1a5e8c;
+            font-size: 1.5rem;
+            margin-top: 0.3rem;
+        }
+        .method-content h4 {
+            color: #1a5e8c;
+            margin-bottom: 0.5rem;
+        }
+        .method-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <h1>数学理论与实践——守正创新视角</h1>
+        <p>以文化为锚，以应用为尺，打通数学“知”与“用”的边界</p>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav">
+        <ul>
+            <li onclick="jumpTo('subject-teaching.html')">学科教学</li>
+            <li class="active">数学建模</li>
+            <li onclick="jumpTo('math-ten-dimensions.html')">中华数学十维之道</li>
+            <li onclick="jumpTo('index.html#homeworkModule')">作业列表</li>
+        </ul>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="container">
+        <!-- 标题卡片 -->
+        <div class="title-card">
+            <div class="icon">
+                <i class="fa fa-cogs" aria-hidden="true"></i>
+            </div>
+            <h2>数学建模</h2>
+            <p><b>生活问题到工程场景</b>，用建模思维转化实际问题，搭建理论与现实的桥梁。在这里，你将学会用数学语言描述世界，用逻辑思维解决复杂挑战。</p>
+        </div>
+
+        <!-- 建模步骤 -->
+        <div class="content-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>问题转化</h3>
+                <p>将实际问题（如种群增长、交通流量）转化为数学语言，明确核心变量与目标。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：抓主要矛盾，忽略次要因素（如研究人口增长时，先忽略移民因素）。
+                </div>
+            </div>
+                <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>问化</h3>
+                <p>将实际问题（如种群增长、交通流量）转化为数学语言，明确核心变量与目标。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：抓主要矛盾，忽略次要因素（如研究人口增长时，先忽略移民因素）。
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>构建模型</h3>
+                <p>选择合适的数学工具（如微分方程、统计模型），建立变量间的关系。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：模型要“既简单又有效”，避免过度复杂。
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>求解与验证</h3>
+                <p>求解模型并与实际数据对比，检验模型的合理性。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：若偏差大，需返回步骤2调整模型（如补充变量）。
+                </div>
+            </div>
+        </div>
+
+        <!-- 案例展示 -->
+        <div class="cases-section">
+            <h3 class="section-title">经典建模案例</h3>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="case-header">种群增长模型</div>
+                    <div class="case-body">
+                        <p>描述：研究某地区野兔种群数量随时间的变化规律。</p>
+                        <p>建模过程：</p>
+                        <p>1. 初期用简单模型 \( \frac{dN}{dt}=rN \)（指数增长），发现未考虑资源限制，与实际偏差大；</p>
+                        <p>2. 引入<em class="highlight">“阴阳平衡”思维</em>：增长（阳）与资源限制（阴）需平衡，修正为Logistic模型：</p>
+                        <p style="text-align: center; margin: 1rem 0;">\( \frac{dN}{dt}=rN(1-\frac{N}{K}) \)</p>
+                        <p>（其中 \( K \) 为环境容纳量，体现“平衡”约束）</p>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-header">交通流量优化</div>
+                    <div class="case-body">
+                        <p>描述：如何分配十字路口的红绿灯时长，减少拥堵。</p>
+                        <p>建模过程：</p>
+                        <p>1. 确定变量：东-西向车流量 \( x \)、南-北向车流量 \( y \)；</p>
+                        <p>2. 引入<em class="highlight">“关联思维”</em>：两个方向的通行时间存在关联（此增彼减）；</p>
+                        <p>3. 建立目标函数：总等待时间最小化，求解得最优时长比例  \( t_x:t_y \approx x:y \)。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 思维方法 -->
+        <div class="thinking-methods">
+            <h3 class="section-title">建模核心思维</h3>
+            <div class="method-list">
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                    </div>
+                    <div class="method-content">
+                        <h4>平衡思维</h4>
+                        <p>如同“阴阳调和”，在模型中体现变量间的制约关系（如供需平衡、增长与限制平衡）。</p>
+                    </div>
+                </div>
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fa fa-link" aria-hidden="true"></i>
+                    </div>
+                    <div class="method-content">
+                        <h4>关联思维</h4>
+                        <p>寻找看似孤立事物的内在联系（如经济数据与数学曲线的关联、不同模型间的转化）。</p>
+                    </div>
+                </div>
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fa fa-sitemap" aria-hidden="true"></i>
+                    </div>
+                    <div class="method-content">
+                        <h4>层次思维</h4>
+                        <p>从简单模型到复杂模型逐步演化（如从单种群模型到多种群竞争模型）。</p>
+                    </div>
+                </div>
+                <div class="method-item">
+                    <div class="method-icon">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </div>
+                    <div class="method-content">
+                        <h4>迭代思维</h4>
+                        <p>通过“建模-验证-修正”的循环，不断优化模型（如从指数增长到Logistic模型的迭代）。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面跳转功能
+        function jumpTo(pageUrl) {
+            window.location.href = pageUrl;
+        }
+    </script>
+</body>
+</html>
