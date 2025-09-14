@@ -1,3 +1,123 @@
+<!-- 集成 Firebase Firestore 云存储功能 -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+  // 你的 Firebase 项目参数
+  const firebaseConfig = {
+    apiKey: "AIzaSyCey-48sc34m5ihoU3jj8DijDifb_lE4kM",
+    authDomain: "math-55463.firebaseapp.com",
+    projectId: "math-55463",
+    storageBucket: "math-55463.appspot.com", // 修正为 appspot.com
+    messagingSenderId: "575326345161",
+    appId: "1:575326345161:web:b2b82569e7ce4c9071ba18",
+    measurementId: "G-9E9QTQB56Z"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // 添加关键词内容到云端
+  function addKeywordContent() {
+    var key = document.getElementById('keyword-input').value.trim();
+    var val = document.getElementById('content-input').value.trim();
+    if (!key || !val) { alert('请填写关键词和内容'); return; }
+    db.collection('keywords').doc(key).set({content: val}).then(() => {
+      updateSelect();
+      document.getElementById('keyword-input').value = '';
+      document.getElementById('content-input').value = '';
+    });
+  }
+
+  // 获取所有关键词
+  function updateSelect() {
+    var select = document.getElementById('keyword-select');
+    select.innerHTML = '<option value="">--请选择--</option>';
+    db.collection('keywords').get().then(snapshot => {
+      snapshot.forEach(doc => {
+        var opt = document.createElement('option');
+        opt.value = doc.id;
+        opt.textContent = doc.id;
+        select.appendChild(opt);
+      });
+    });
+  }
+
+  // 选择关键词显示内容
+  function showContent() {
+    var key = document.getElementById('keyword-select').value;
+    db.collection('keywords').doc(key).get().then(doc => {
+      document.getElementById('content-display').textContent = doc.exists ? doc.data().content : '';
+    });
+  }
+
+  // 页面加载时自动刷新下拉栏
+  window.addEventListener('DOMContentLoaded', updateSelect);
+</script>
+<!-- 关键词内容添加模块（中部） -->
+<div id="keyword-module" style="background:#fff;max-width:600px;margin:48px auto 32px auto;padding:32px 24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <h2 style="color:#2c3e50;border-left:6px solid #3498db;padding-left:12px;">自定义知识模块</h2>
+  <div style="margin-bottom:18px;">
+    <input id="keyword-input" type="text" placeholder="关键词" style="width:40%;padding:8px 12px;margin-right:12px;border-radius:6px;border:1px solid #ccc;">
+    <input id="content-input" type="text" placeholder="内容" style="width:40%;padding:8px 12px;border-radius:6px;border:1px solid #ccc;">
+    <button onclick="addKeywordContent()" style="padding:8px 18px;margin-left:12px;background:#3498db;color:#fff;border:none;border-radius:6px;cursor:pointer;">添加</button>
+  </div>
+  <div style="margin-bottom:18px;">
+    <label for="keyword-select" style="font-weight:bold;">选择关键词：</label>
+    <select id="keyword-select" onchange="showContent()" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;">
+      <option value="">--请选择--</option>
+    </select>
+  </div>
+  <div id="content-display" style="background:#f9f9f9;padding:16px 20px;border-radius:8px;min-height:40px;color:#333;box-shadow:0 1px 4px rgba(0,0,0,0.05);"></div>
+</div>
+
+<script>
+// 用于存储关键词和内容，支持 localStorage 持久化
+var keywordData = {};
+
+// 页面加载时恢复数据
+window.addEventListener('DOMContentLoaded', function() {
+  var saved = localStorage.getItem('keywordData');
+  if (saved) {
+    try {
+      keywordData = JSON.parse(saved);
+    } catch(e) {
+      keywordData = {};
+    }
+  }
+  updateSelect();
+});
+
+function addKeywordContent() {
+  var key = document.getElementById('keyword-input').value.trim();
+  var val = document.getElementById('content-input').value.trim();
+  if (!key || !val) {
+    alert('请填写关键词和内容');
+    return;
+  }
+  keywordData[key] = val;
+  localStorage.setItem('keywordData', JSON.stringify(keywordData)); // 保存到 localStorage
+  updateSelect();
+  document.getElementById('keyword-input').value = '';
+  document.getElementById('content-input').value = '';
+}
+
+function updateSelect() {
+  var select = document.getElementById('keyword-select');
+  select.innerHTML = '<option value="">--请选择--</option>';
+  for (var k in keywordData) {
+    var opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = k;
+    select.appendChild(opt);
+  }
+}
+
+function showContent() {
+  var select = document.getElementById('keyword-select');
+  var key = select.value;
+  var display = document.getElementById('content-display');
+  display.textContent = key ? keywordData[key] : '';
+}
+</script>
 <!DOCTYPE html>
 <!-- saved from url=(0049)http://127.0.0.1:5500/-.github.io-main/index.html -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
