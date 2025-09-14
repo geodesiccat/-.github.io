@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* 确保按钮可以点击的基础样式 */
+        .delete-btn {
+            /* 关键设置：确保按钮可以被点击 */
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            /* 基础样式 */
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        .homework-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .homework-text {
+            flex: 1;
+        }
+        
+        .add-homework-btn {
+            padding: 8px 16px;
+            background-color: #00C851;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 作业模块容器 -->
+    <div id="homeworkModule">
+        <button class="add-homework-btn" onclick="addNewHomework()">添加新作业</button>
+        <div id="homeworkList" class="homework-list">
+            <!-- 作业项会在这里动态添加 -->
+        </div>
+    </div>
+
+    <script>
+        // 页面加载完成后确保元素存在
+        window.onload = function() {
+            console.log('页面加载完成，作业列表元素:', document.getElementById('homeworkList'));
+        };
+
+        // 页面跳转
+        function jumpTo(pageUrl) {
+            window.location.href = pageUrl;
+        }
+
+        // 滚动到作业列表
+        function scrollToHomework() {
+            document.getElementById('homeworkModule').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 移除作业功能 - 最基础可靠的版本
+        function removeHomework(button) {
+            console.log('删除按钮被点击', button);
+            
+            if (confirm('确定要删除这条作业吗？')) {
+                // 最直接的父元素查找方式
+                var item = button.parentElement;
+                if (item && item.classList.contains('homework-item')) {
+                    item.remove();
+                    alert('作业已删除');
+                } else {
+                    alert('删除失败：未找到作业项');
+                }
+            }
+        }
+
+        // 添加作业功能
+        function addNewHomework() {
+            console.log('添加作业按钮被点击');
+            
+            const homeworkContent = prompt('请输入作业内容：');
+            if (!homeworkContent) return;
+
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2,'0')}-${today.getDate().toString().padStart(2,'0')}`;
+
+            const homeworkList = document.getElementById('homeworkList');
+            if (!homeworkList) {
+                alert('错误：未找到作业列表容器');
+                return;
+            }
+
+            // 创建新作业项
+            const newItem = document.createElement('div');
+            newItem.className = 'homework-item';
+            
+            // 创建删除按钮 - 使用最基础的方式
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = '删除';
+            // 使用最简单的事件绑定方式
+            deleteBtn.onclick = function() {
+                removeHomework(this);
+            };
+
+            // 创建文本内容
+            const textDiv = document.createElement('div');
+            textDiv.className = 'homework-text';
+            textDiv.textContent = homeworkContent;
+
+            // 创建时间显示
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'homework-time';
+            timeDiv.textContent = `${dateStr} 发布`;
+
+            // 组装元素
+            newItem.appendChild(textDiv);
+            newItem.appendChild(timeDiv);
+            newItem.appendChild(deleteBtn);
+
+            // 添加到列表
+            homeworkList.insertBefore(newItem, homeworkList.firstChild);
+
+            alert('作业添加成功！');
+        }
+    </script>
+</body>
+</html>
+    

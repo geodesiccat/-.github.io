@@ -1,282 +1,396 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>数学理论与实践——守正创新视角</title>
-  <style>
-    /* 基础样式保留，仅简化作业模块 */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: '微软雅黑', 'Arial', sans-serif;
-    }
-    body {
-      background: #f6f8fa;
-      background-image: url('images/bg-home.png');
-      background-size: cover;
-      background-attachment: fixed;
-    }
-    .header {
-      background: rgba(255,255,255,0.95);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      padding: 1.5rem 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header h1 {
-      font-size: 2.2rem;
-      color: #1a5e8c;
-      letter-spacing: 3px;
-      margin-bottom: 0.5rem;
-    }
-    .header p {
-      color: #666;
-      font-size: 1.1rem;
-    }
-    /* 导航栏 */
-    .nav {
-      max-width: 1200px;
-      margin: 1.5rem auto;
-      background: rgba(255,255,255,0.9);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      overflow: hidden;
-    }
-    .nav ul {
-      display: flex;
-      list-style: none;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .nav li {
-      padding: 1rem 2rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .nav li:hover {
-      background: #eaf6ff;
-      color: #1a5e8c;
-      font-weight: bold;
-    }
-    /* 核心入口区 */
-    .core-entry {
-      max-width: 1000px;
-      margin: 3rem auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      padding: 0 1rem;
-    }
-    .entry-card {
-      background: linear-gradient(135deg, #eaf6ff 0%, #f0f7ff 100%);
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(26,94,140,0.1);
-      padding: 2.5rem 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border: 1px solid #e0e7ef;
-    }
-    .entry-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 24px rgba(26,94,140,0.15);
-      border-color: #1a5e8c;
-    }
-    .entry-card i {
-      font-size: 3rem;
-      color: #1a5e8c;
-      margin-bottom: 1.5rem;
-    }
-    .entry-card h2 {
-      font-size: 1.8rem;
-      color: #333;
-      margin-bottom: 1rem;
-    }
-    .entry-card p {
-      color: #666;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    /* 简化版作业模块 */
-    .homework-module {
-      max-width: 1000px;
-      margin: 2rem auto 4rem;
-      background: rgba(255,255,255,0.9);
-      border-radius: 10px;
-      padding: 2rem;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    }
-    /* 新增按钮：突出显示，方便点击 */
-    .add-homework-btn {
-      padding: 0.8rem 1.5rem;
-      background: #1a5e8c;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .add-homework-btn:hover {
-      background: #144a6d;
-    }
-    /* 作业列表：简洁排版，增量添加后自动排序 */
-    .homework-list {
-      border-top: 1px solid #e0e7ef;
-      padding-top: 1rem;
-    }
-    .homework-item {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 1rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .homework-text {
-      flex: 1; /* 文字占主要宽度 */
-      color: #333;
-    }
-    .homework-time {
-      color: #999;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      margin-left: 1rem;
-    }
-    /* 简介区 */
-    .intro {
-      max-width: 1000px;
-      margin: 2rem auto;
-      background: rgba(255,255,255,0.9);
-      border-radius: 10px;
-      padding: 2rem;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    }
-    .intro h3 {
-      font-size: 1.5rem;
-      color: #1a5e8c;
-      margin-bottom: 1rem;
-    }
-    .intro p {
-      color: #444;
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-    /* 响应式：小屏幕适配 */
-    @media (max-width: 768px) {
-      .core-entry {
-        grid-template-columns: 1fr;
-      }
-      .nav li {
-        padding: 1rem 1.2rem;
-      }
-      .header h1 {
-        font-size: 1.8rem;
-      }
-      .homework-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-      .homework-time {
-        margin-left: 0;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学理论与实践——守正创新视角</title>
+    <!-- 外部资源引入 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
+
+    <style>
+        /* 基础全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '微软雅黑', 'Arial', sans-serif;
+        }
+        body {
+            background: #f6f8fa;
+            background-image: url('images/bg-home.png');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* 顶部标题栏 */
+        .header {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            color: #1a5e8c;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* 导航栏 */
+        .nav {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav li {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .nav li:hover {
+            background: #eaf6ff;
+            color: #1a5e8c;
+            font-weight: bold;
+        }
+
+        /* 核心入口区 */
+        .core-entry {
+            max-width: 1000px;
+            margin: 3rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+        .entry-card {
+            background: linear-gradient(135deg, #eaf6ff 0%, #f0f7ff 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(26,94,140,0.1);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e0e7ef;
+        }
+        .entry-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(26,94,140,0.15);
+            border-color: #1a5e8c;
+        }
+        .entry-card i {
+            font-size: 3rem;
+            color: #1a5e8c;
+            margin-bottom: 1.5rem;
+        }
+        .entry-card h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .entry-card p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* 作业模块（核心功能区） */
+        .homework-module {
+            max-width: 1000px;
+            margin: 2rem auto 4rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .add-homework-btn {
+            padding: 0.8rem 1.5rem;
+            background: #1a5e8c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: background 0.2s ease;
+        }
+        .add-homework-btn:hover {
+            background: #144a6d;
+        }
+        .homework-list {
+            border-top: 1px solid #e0e7ef;
+            padding-top: 1rem;
+        }
+        .homework-item {
+            border-bottom: 1px solid #f0f0f0;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+        .homework-item:hover {
+            background: #f9fafb;
+        }
+        .homework-text {
+            flex: 1;
+            color: #333;
+            padding-right: 1rem;
+        }
+        .homework-time {
+            color: #999;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+        /* 确保删除按钮可点击且样式统一 */
+        .delete-btn {
+            padding: 0.4rem 0.8rem;
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+            transition: all 0.2s ease;
+            pointer-events: auto; /* 强制允许点击 */
+        }
+        .delete-btn:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 简介区 */
+        .intro {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .intro h3 {
+            font-size: 1.5rem;
+            color: #1a5e8c;
+            margin-bottom: 1rem;
+        }
+        .intro p {
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* GeoGebra 计算器容器 */
+        .geogebra-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        /* 数学公式编辑器容器 */
+        .math-editor-container {
+            max-width: 1000px;
+            margin: 2rem auto 4rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        #mathEditor {
+            border: 1px solid #e0e7ef;
+            border-radius: 6px;
+            padding: 1rem;
+            min-height: 60px;
+            font-size: 1.2rem;
+        }
+
+        /* 响应式适配（手机/平板） */
+        @media (max-width: 768px) {
+            .core-entry {
+                grid-template-columns: 1fr;
+            }
+            .nav li {
+                padding: 1rem 1.2rem;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .homework-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .homework-time {
+                margin-left: 0;
+            }
+            .delete-btn {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+            .geogebra-container {
+                width: 90%;
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- 顶部标题栏 -->
-  <div class="header">
-    <h1>数学理论与实践——守正创新视角</h1>
-    <p>以文化为锚，以应用为尺，打通数学“知”与“用”的边界</p>
-  </div>
-
-  <!-- 导航栏 -->
-  <div class="nav">
-    <ul>
-      <li onclick="jumpTo('subject-teaching.html')">学科教学</li>
-      <li onclick="jumpTo('math-modeling.html')">数学建模</li>
-      <li onclick="jumpTo('math-ten-dimensions.html')">中华数学十维之道</li>
-      <li onclick="scrollToHomework()">作业列表</li>
-    </ul>
-  </div>
-
-  <!-- 核心入口区 -->
-  <div class="core-entry">
-    <div class="entry-card" onclick="jumpTo('subject-teaching.html')">
-      <i class="fa fa-book" aria-hidden="true"></i>
-      <h2>学科教学</h2>
-      <p>以“守正创新”重构数学理论学习：用中华传统文化串联高数知识点，兼顾严谨性与延展性。</p>
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <h1>数学理论与实践——守正创新视角</h1>
+        <p>以文化为锚，以应用为尺，打通数学“知”与“用”的边界</p>
     </div>
-    <div class="entry-card" onclick="jumpTo('math-modeling.html')">
-      <i class="fa fa-cogs" aria-hidden="true"></i>
-      <h2>数学建模</h2>
-      <p>聚焦数学实践应用：从生活问题到工程场景，用建模思维转化实际问题。</p>
+
+    <!-- 导航栏 -->
+    <div class="nav">
+        <ul>
+            <li onclick="jumpTo('subject-teaching.html')">教学与要求</li>
+            <li onclick="jumpTo('math-modeling.html')">数学建模</li>
+            <li onclick="jumpTo('math-ten-dimensions.html')">中华数学十维之道</li>
+            <li onclick="scrollToHomework()">作业列表</li>
+        </ul>
     </div>
-  </div>
 
-  <!-- 简化版作业模块 -->
-  <div class="homework-module" id="homeworkModule">
-    <!-- 一键新增按钮 -->
-    <button class="add-homework-btn" onclick="addNewHomework()">
-      <i class="fa fa-plus" aria-hidden="true"></i> 新增作业
-    </button>
-    
-    <!-- 作业列表（增量添加后自动显示） -->
-    <div class="homework-list" id="homeworkList">
-      <!-- 示例作业 -->
-      <div class="homework-item">
-        <div class="homework-text">高数：完成教材P88第3、5、7题（微积分基本定理）</div>
-        <div class="homework-time">2024-09-15 发布</div>
-      </div>
+    <!-- 核心入口区 -->
+    <div class="core-entry">
+        <div class="entry-card" onclick="jumpTo('subject-teaching.html')">
+            <i class="fa fa-book" aria-hidden="true"></i>
+            <h2>学科教学</h2>
+            <p>以“守正创新”重构数学理论学习：用中华传统文化串联高数知识点，兼顾严谨性与延展性。</p>
+        </div>
+        <div class="entry-card" onclick="jumpTo('math-modeling.html')">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <h2>数学建模</h2>
+            <p>聚焦数学实践应用：从生活问题到工程场景，用建模思维转化实际问题。</p>
+        </div>
     </div>
-  </div>
 
-  <!-- 简介区 -->
-  <div class="intro">
-    <h3>何为“守正创新”？</h3>
-    <p>“守正”：坚守数学理论的严谨性，夯实“函数、微积分、建模”等核心知识；</p>
-    <p>“创新”：用文化串联理论、用实践激活理论，让数学从“课本符号”变成“可应用的工具”。</p>
-  </div>
+    <!-- 作业模块（带添加/删除功能） -->
+    <div class="homework-module" id="homeworkModule">
+        <button class="add-homework-btn" onclick="addNewHomework()">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新增作业
+        </button>
+        <div class="homework-list" id="homeworkList">
+            <!-- 示例作业（默认带删除按钮） -->
+            <div class="homework-item">
+                <div class="homework-text">必看：作业总体要求</div>
+                      <div class="entry-card" onclick="jumpTo('subject-teaching.html')"></div>
+                <div class="homework-time">2024-09-15 发布</div>
+                <button class="delete-btn" onclick="removeHomework(this)">删除</button>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    // 页面跳转
-    function jumpTo(pageUrl) {
-      window.location.href = pageUrl;
-    }
+    <!-- 简介区 -->
+    <div class="intro">
+        <h3>何为“守正创新”？</h3>
+        <p>“守正”：坚守数学理论的严谨性，夯实“函数、微积分、建模”等核心知识；</p>
+        <p>“创新”：用文化串联理论、用实践激活理论，让数学从“课本符号”变成“可应用的工具”。</p>
+    </div>
 
-    // 滚动到作业列表
-    function scrollToHomework() {
-      document.getElementById('homeworkModule').scrollIntoView({ behavior: 'smooth' });
-    }
+    <!-- GeoGebra 图形计算器 -->
+    <div class="geogebra-container">
+        <iframe src="https://www.geogebra.org/calculator" width="100%" height="600" frameborder="0"></iframe>
+    </div>
 
-    // 核心：增量添加作业（仅需输入内容，自动带发布时间）
-    function addNewHomework() {
-      // 1. 弹出输入框，获取作业内容
-      const homeworkContent = prompt('请输入作业内容（如：高数：完成P88第3题）：');
-      if (!homeworkContent) return; // 取消输入则退出
+    <!-- 数学公式编辑器 -->
+    <div class="math-editor-container">
+        <h3>数学公式编辑器</h3>
+        <div id="mathEditor"></div>
+    </div>
 
-      // 2. 自动生成当前时间（格式：2024-09-15）
-      const today = new Date();
-      const dateStr = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2,'0')}-${today.getDate().toString().padStart(2,'0')}`;
+    <!-- 所有功能脚本（放在底部确保DOM加载完成） -->
+    <script>
+        // 1. 页面跳转功能
+        function jumpTo(pageUrl) {
+            window.location.href = pageUrl;
+        }
 
-      // 3. 新增作业项，插入到列表最前面（增量添加，最新的在最上）
-      const homeworkList = document.getElementById('homeworkList');
-      const newItem = document.createElement('div');
-      newItem.className = 'homework-item';
-      newItem.innerHTML = `
-        <div class="homework-text">${homeworkContent}</div>
-        <div class="homework-time">${dateStr} 发布</div>
-      `;
-      homeworkList.insertBefore(newItem, homeworkList.firstChild);
+        // 2. 滚动到作业列表（平滑滚动）
+        function scrollToHomework() {
+            const homeworkModule = document.getElementById('homeworkModule');
+            if (homeworkModule) {
+                homeworkModule.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
 
-      // 4. 可选：提示添加成功
-      alert('作业添加成功！');
-    }
-  </script>
+        // 3. 删除作业功能（简化可靠版）
+        function removeHomework(btn) {
+            if (confirm('确定要删除这条作业吗？')) {
+                const homeworkItem = btn.parentElement;
+                if (homeworkItem && homeworkItem.classList.contains('homework-item')) {
+                    homeworkItem.remove();
+                    alert('作业已删除');
+                } else {
+                    alert('未找到对应的作业项');
+                }
+            }
+        }
+
+        // 4. 新增作业功能（自动带时间+删除按钮）
+        function addNewHomework() {
+            const homeworkContent = prompt('请输入作业内容（如：高数：完成P88第3题）：');
+            if (!homeworkContent) return; // 取消输入则退出
+
+            // 生成当前日期（格式：2024-09-15）
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+
+            // 创建新作业项
+            const homeworkList = document.getElementById('homeworkList');
+            const newItem = document.createElement('div');
+            newItem.className = 'homework-item';
+
+            // 组装作业项内容（含删除按钮）
+            newItem.innerHTML = `
+                <div class="homework-text">${homeworkContent}</div>
+                <div class="homework-time">${dateStr} 发布</div>
+                <button class="delete-btn" onclick="removeHomework(this)">删除</button>
+            `;
+
+            // 插入到列表最顶部（最新作业在最前）
+            homeworkList.insertBefore(newItem, homeworkList.firstChild);
+            alert('作业添加成功！');
+        }
+
+        // 5. 初始化数学公式编辑器
+        window.onload = function() {
+            const mathEditor = MathQuill.getInterface(2);
+            mathEditor.MathField(document.getElementById('mathEditor'), {
+                latex: 'x^2 + y^2 = z^2', // 初始公式
+                handlers: {
+                    edit: function() {
+                        // 编辑时可自定义逻辑（如实时保存）
+                    }
+                }
+            });
+        };
+    </script>
 </body>
 </html>

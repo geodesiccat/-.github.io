@@ -122,7 +122,7 @@
         /* 步骤卡片样式 */
         .step-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 40px;
             padding: 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             transition: transform 0.3s, box-shadow 0.3s;
@@ -138,7 +138,7 @@
             height: 40px;
             background: #1a5e8c;
             color: white;
-            border-radius: 50%;
+            border-radius: 300%;
             text-align: center;
             line-height: 40px;
             font-weight: bold;
@@ -159,7 +159,7 @@
             color: #1a5e8c;
             background: #eaf6ff;
             padding: 0.8rem;
-            border-radius: 6px;
+            border-radius: 12px;
             border-left: 3px solid #144a6d;
         }
 
@@ -331,13 +331,72 @@
                 </div>
             </div>
         </div>
-
+  <div class="content-grid">
+            <div class="step-card">
+                <div class="step-number">2019(E)  </div>
+                <h3>问题转化</h3>
+                <p>将实际问题（如种群增长、交通流量）转化为数学语言，明确核心变量与目标。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：抓主要矛盾，忽略次要因素（如研究人口增长时，先忽略移民因素）。
+                </div>
+            </div>
+                <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>问化</h3>
+                <p>将实际问题（如种群增长、交通流量）转化为数学语言，明确核心变量与目标。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：抓主要矛盾，忽略次要因素（如研究人口增长时，先忽略移民因素）。
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>构建模型</h3>
+                <p>选择合适的数学工具（如微分方程、统计模型），建立变量间的关系。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：模型要“既简单又有效”，避免过度复杂。
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>求解与验证</h3>
+                <p>求解模型并与实际数据对比，检验模型的合理性。</p>
+                <div class="tip">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i> 关键：若偏差大，需返回步骤2调整模型（如补充变量）。
+                </div>
+            </div>
+        </div>
         <!-- 案例展示 -->
         <div class="cases-section">
             <h3 class="section-title">经典建模案例</h3>
             <div class="cases-grid">
                 <div class="case-card">
-                    <div class="case-header">种群增长模型</div>
+                    <div class="case-header">2019D</div>
+                    <div class="case-body">
+                        <p>描述：研究某地区野兔种群数量随时间的变化规律。</p>
+                        <p>建模过程：</p>
+                        <p>1. 初期用简单模型 \( \frac{dN}{dt}=rN \)（指数增长），发现未考虑资源限制，与实际偏差大；</p>
+                        <p>2. 引入<em class="highlight">“阴阳平衡”思维</em>：增长（阳）与资源限制（阴）需平衡，修正为Logistic模型：</p>
+                        <p style="text-align: center; margin: 1rem 0;">\( \frac{dN}{dt}=rN(1-\frac{N}{K}) \)</p>
+                        <p>（其中 \( K \) 为环境容纳量，体现“平衡”约束）</p>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="case-header">交通流量优化</div>
+                    <div class="case-body">
+                        <p>描述：如何分配十字路口的红绿灯时长，减少拥堵。</p>
+                        <p>建模过程：</p>
+                        <p>1. 确定变量：东-西向车流量 \( x \)、南-北向车流量 \( y \)；</p>
+                        <p>2. 引入<em class="highlight">“关联思维”</em>：两个方向的通行时间存在关联（此增彼减）；</p>
+                        <p>3. 建立目标函数：总等待时间最小化，求解得最优时长比例  \( t_x:t_y \approx x:y \)。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="cases-section">
+            <h3 class="section-title">经典建模案例</h3>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="case-header">2019D</div>
                     <div class="case-body">
                         <p>描述：研究某地区野兔种群数量随时间的变化规律。</p>
                         <p>建模过程：</p>
