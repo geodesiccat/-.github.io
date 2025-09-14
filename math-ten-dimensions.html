@@ -27,22 +27,26 @@
     });
   }
 
-  // 获取所有关键词
-  function updateSelect() {
-    var select = document.getElementById('keyword-select');
-    select.innerHTML = '<option value="">--请选择--</option>';
-    db.collection('keywords').get().then(snapshot => {
+    // 实时同步所有关键词
+    function updateSelect(snapshot) {
+      var select = document.getElementById('keyword-select');
+      var current = select.value;
+      select.innerHTML = '<option value="">--请选择--</option>';
       snapshot.forEach(doc => {
         var opt = document.createElement('option');
         opt.value = doc.id;
         opt.textContent = doc.id;
         select.appendChild(opt);
       });
-    });
-  }
+      // 保持当前选择
+      if (current) select.value = current;
+      showContent();
+    }
 
-  // 选择关键词显示内容
-  function showContent() {
+    // 页面加载时自动实时监听 Firestore 数据
+    window.addEventListener('DOMContentLoaded', function() {
+      db.collection('keywords').onSnapshot(updateSelect);
+    });
     var key = document.getElementById('keyword-select').value;
     db.collection('keywords').doc(key).get().then(doc => {
       document.getElementById('content-display').textContent = doc.exists ? doc.data().content : '';
