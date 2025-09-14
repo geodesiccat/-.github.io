@@ -15,15 +15,20 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // 添加关键词内容到云端
+  // 添加关键词内容到云端，添加后自动选中最新关键词
   function addKeywordContent() {
     var key = document.getElementById('keyword-input').value.trim();
     var val = document.getElementById('content-input').value.trim();
     if (!key || !val) { alert('请填写关键词和内容'); return; }
     db.collection('keywords').doc(key).set({content: val}).then(() => {
-      updateSelect();
       document.getElementById('keyword-input').value = '';
       document.getElementById('content-input').value = '';
+      // 等待实时监听刷新后自动选中
+      setTimeout(function() {
+        var select = document.getElementById('keyword-select');
+        select.value = key;
+        showContent();
+      }, 500);
     });
   }
 
