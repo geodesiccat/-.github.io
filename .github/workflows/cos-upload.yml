@@ -1,0 +1,23 @@
+name: Upload to Tencent COS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Upload files to COS
+        uses: TencentCloud/cos-action@v1
+        with:
+          secret_id: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
+          secret_key: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+          bucket: your-bucket-name
+          region: ap-beijing
+          source: ./
+          dest: /
