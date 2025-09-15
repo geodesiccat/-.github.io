@@ -17,7 +17,7 @@ jobs:
         with:
           secret_id: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
           secret_key: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
-          bucket: "math-1378865866"
-          region: "ap-beijing"
-          source: "./"
-          dest: "/"
+          cos-bucket: "math-1378865866"
+          cos-region: "ap-beijing"
+          local-path: "./"
+          remote-path: "/"
