@@ -15,8 +15,8 @@ jobs:
       - name: Upload files to COS
         uses: TencentCloud/cos-action@v1
         with:
-          secret_id: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+          secret_id: ${{ secrets.COS_SECRET_ID }}
+          secret_key: ${{ secrets.COS_SECRET_KEY }}
           cos_bucket: "math-1378865866"
           cos_region: "ap-beijing"
           local_path: "./作业.html"
