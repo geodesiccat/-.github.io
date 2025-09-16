@@ -296,7 +296,7 @@
         <div class="homework-list" id="homeworkList">
             <!-- 示例作业（默认带删除按钮） -->
             <div class="homework-item">
-                <div class="homework-text"><span style="color: #dc2626; font-size: 150%">：作业总体要求</span></div>
+                <div class="homework-text"><span style="color: #dc2626; font-size: 150%">必看：作业总体要求</span></div>
                       <div class="entry-card" onclick="jumpTo('subject-teaching.html')"></div>
                 <div class="homework-time">2024-09-15 发布</div>
                 <button class="delete-btn" onclick="removeHomework(this)">删除</button>
@@ -337,47 +337,7 @@
             }
         }
 
-        // 3. 删除作业功能（简化可靠版）
-        function removeHomework(btn) {
-            if (confirm('确定要删除这条作业吗？')) {
-                const homeworkItem = btn.parentElement;
-                if (homeworkItem && homeworkItem.classList.contains('homework-item')) {
-                    homeworkItem.remove();
-                    alert('作业已删除');
-                } else {
-                    alert('未找到对应的作业项');
-                }
-            }
-        }
 
-        // 4. 新增作业功能（自动带时间+删除按钮）
-        function addNewHomework() {
-            const homeworkContent = prompt('请输入作业内容（如：高数：完成P88第3题）：');
-            if (!homeworkContent) return; // 取消输入则退出
-
-            // 生成当前日期（格式：2024-09-15）
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            const dateStr = `${year}-${month}-${day}`;
-
-            // 创建新作业项
-            const homeworkList = document.getElementById('homeworkList');
-            const newItem = document.createElement('div');
-            newItem.className = 'homework-item';
-
-            // 组装作业项内容（含删除按钮）
-            newItem.innerHTML = `
-                <div class="homework-text">${homeworkContent}</div>
-                <div class="homework-time">${dateStr} 发布</div>
-                <button class="delete-btn" onclick="removeHomework(this)">删除</button>
-            `;
-
-            // 插入到列表最顶部（最新作业在最前）
-            homeworkList.insertBefore(newItem, homeworkList.firstChild);
-            alert('作业添加成功！');
-        }
 
         // 5. 初始化数学公式编辑器
         window.onload = function() {
@@ -392,5 +352,91 @@
             });
         };
     </script>
+<script>
+// 全局函数：获取作业列表
+async function loadHomeworkList() {
+    try {
+        const response = await fetch('/api/homework.py');
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            const listContainer = document.getElementById('homeworkList');
+            listContainer.innerHTML = ''; // 清空现有列表
+            
+            result.data.forEach(item => {
+                const date = new Date(item.created_at);
+                const timeString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'homework-item';
+                itemDiv.innerHTML = `
+                    <div class="homework-text">${item.content}</div>
+                    <div class="homework-time">${timeString}</div>
+                    <button class="delete-btn" onclick="deleteHomework(${item.id})">删除</button>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+    } catch (error) {
+        console.error('加载作业列表失败:', error);
+    }
+}
+
+// 新增作业
+async function addNewHomework() {
+    const homeworkContent = prompt('请输入新作业内容：');
+    if (!homeworkContent) return;
+
+    try {
+        const formData = new FormData();
+        formData.append('content', homeworkContent);
+        
+        const response = await fetch('/api/homework.py', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        if (result.status === 'success') {
+            await loadHomeworkList(); // 重新加载列表
+            alert('作业添加成功！');
+        } else {
+            alert('添加失败: ' + result.message);
+        }
+    } catch (error) {
+        console.error('添加作业失败:', error);
+        alert('添加失败，请检查网络连接');
+    }
+}
+
+// 删除作业
+async function deleteHomework(id) {
+    if (!confirm('确定要删除这条作业吗？')) return;
+
+    try {
+        const formData = new FormData();
+        formData.append('id', id);
+        
+        const response = await fetch('/api/homework.py', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        if (result.status === 'success') {
+            await loadHomeworkList(); // 重新加载列表
+            alert('作业已删除');
+        } else {
+            alert('删除失败: ' + result.message);
+        }
+    } catch (error) {
+        console.error('删除作业失败:', error);
+        alert('删除失败，请检查网络连接');
+    }
+}
+
+// 页面加载时自动读取作业列表
+document.addEventListener('DOMContentLoaded', loadHomeworkList);
+</script>
 </body>
 </html>
