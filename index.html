@@ -438,5 +438,243 @@ async function deleteHomework(id) {
 // 页面加载时自动读取作业列表
 document.addEventListener('DOMContentLoaded', loadHomeworkList);
 </script>
+<script>
+// 环境检测与配置
+const AppConfig = {
+    // 自动检测运行环境
+    getEnvironment() {
+        const hostname = window.location.hostname;
+        const port = window.location.port;
+        
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return 'development';
+        } else if (hostname.includes('github.io')) {
+            return 'github-pages';
+        } else if (hostname === '8.136.54.89' || hostname === '您的域名.com') {
+            return 'production';
+        } else {
+            return 'unknown';
+        }
+    },
+    
+    // 环境特定的配置
+    environments: {
+        'production': {
+            apiBase: '/api/homework.py',
+            storageType: 'server'
+        },
+        'development': {
+            apiBase: '/api/homework.py', 
+            storageType: 'server'
+        },
+        'github-pages': {
+            storageType: 'localstorage' // GitHub Pages 使用浏览器本地存储
+        },
+        'unknown': {
+            storageType: 'localstorage' // 默认回退到本地存储
+        }
+    },
+    
+    // 获取当前配置
+    getCurrentConfig() {
+        const env = this.getEnvironment();
+        return this.environments[env] || this.environments['unknown'];
+    }
+};
+
+// 统一的作业管理接口
+const HomeworkManager = {
+    // 获取所有作业
+    async getAll() {
+        const config = AppConfig.getCurrentConfig();
+        
+        switch(config.storageType) {
+            case 'server':
+                return await this._fetchFromServer(config);
+            case 'localstorage':
+                return this._getFromLocalStorage();
+            default:
+                return this._getFromLocalStorage();
+        }
+    },
+    
+    // 添加新作业
+    async add(content) {
+        const config = AppConfig.getCurrentConfig();
+        
+        switch(config.storageType) {
+            case 'server':
+                return await this._addToServer(content, config);
+            case 'localstorage':
+                return this._addToLocalStorage(content);
+            default:
+                return this._addToLocalStorage(content);
+        }
+    },
+    
+    // 删除作业
+    async delete(id) {
+        const config = AppConfig.getCurrentConfig();
+        
+        switch(config.storageType) {
+            case 'server':
+                return await this._deleteFromServer(id, config);
+            case 'localstorage':
+                return this._deleteFromLocalStorage(id);
+            default:
+                return this._deleteFromLocalStorage(id);
+        }
+    },
+    
+    // 服务器API调用方法
+    async _fetchFromServer(config) {
+        try {
+            const response = await fetch(config.apiBase);
+            const result = await response.json();
+            return result.status === 'success' ? result.data : [];
+        } catch (error) {
+            console.warn('服务器API调用失败，回退到本地存储', error);
+            return this._getFromLocalStorage();
+        }
+    },
+    
+    async _addToServer(content, config) {
+        try {
+            const formData = new FormData();
+            formData.append('content', content);
+            
+            const response = await fetch(config.apiBase, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            return result.status === 'success';
+        } catch (error) {
+            console.warn('服务器添加失败，使用本地存储', error);
+            return this._addToLocalStorage(content);
+        }
+    },
+    
+    async _deleteFromServer(id, config) {
+        try {
+            const formData = new FormData();
+            formData.append('id', id);
+            
+            const response = await fetch(config.apiBase, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            return result.status === 'success';
+        } catch (error) {
+            console.warn('服务器删除失败，使用本地存储', error);
+            return this._deleteFromLocalStorage(id);
+        }
+    },
+    
+    // 本地存储方法
+    _getFromLocalStorage() {
+        const stored = localStorage.getItem('homework_list');
+        return stored ? JSON.parse(stored) : [];
+    },
+    
+    _addToLocalStorage(content) {
+        const homework = this._getFromLocalStorage();
+        const newItem = {
+            id: Date.now(), // 使用时间戳作为ID
+            content: content,
+            created_at: new Date().toISOString()
+        };
+        
+        homework.unshift(newItem); // 添加到开头
+        localStorage.setItem('homework_list', JSON.stringify(homework));
+        return true;
+    },
+    
+    _deleteFromLocalStorage(id) {
+        const homework = this._getFromLocalStorage();
+        const filtered = homework.filter(item => item.id !== id);
+        localStorage.setItem('homework_list', JSON.stringify(filtered));
+        return true;
+    }
+};
+
+// 修改后的页面功能函数
+async function loadHomeworkList() {
+    try {
+        const homework = await HomeworkManager.getAll();
+        const listContainer = document.getElementById('homeworkList');
+        listContainer.innerHTML = '';
+        
+        homework.forEach(item => {
+            const date = new Date(item.created_at);
+            const timeString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'homework-item';
+            itemDiv.innerHTML = `
+                <div class="homework-text">${item.content}</div>
+                <div class="homework-time">${timeString}</div>
+                <button class="delete-btn" onclick="deleteHomework(${item.id})">删除</button>
+            `;
+            listContainer.appendChild(itemDiv);
+        });
+        
+        // 显示当前环境（用于调试）
+        const env = AppConfig.getEnvironment();
+        console.log(`当前运行环境: ${env}, 使用存储方式: ${AppConfig.getCurrentConfig().storageType}`);
+        
+    } catch (error) {
+        console.error('加载作业列表失败:', error);
+    }
+}
+
+async function addNewHomework() {
+    const homeworkContent = prompt('请输入新作业内容：');
+    if (!homeworkContent) return;
+
+    const success = await HomeworkManager.add(homeworkContent);
+    if (success) {
+        await loadHomeworkList();
+        alert('作业添加成功！');
+    } else {
+        alert('添加失败，请重试');
+    }
+}
+
+async function deleteHomework(id) {
+    if (!confirm('确定要删除这条作业吗？')) return;
+
+    const success = await HomeworkManager.delete(id);
+    if (success) {
+        await loadHomeworkList();
+        alert('作业已删除');
+    } else {
+        alert('删除失败，请重试');
+    }
+}
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    loadHomeworkList();
+    
+    // 在页面底部显示当前环境（可选）
+    const env = AppConfig.getEnvironment();
+    const envBadge = document.createElement('div');
+    envBadge.style.position = 'fixed';
+    envBadge.style.bottom = '10px';
+    envBadge.style.right = '10px';
+    envBadge.style.background = 'rgba(0,0,0,0.7)';
+    envBadge.style.color = 'white';
+    envBadge.style.padding = '5px 10px';
+    envBadge.style.borderRadius = '5px';
+    envBadge.style.fontSize = '12px';
+    envBadge.style.zIndex = '1000';
+    envBadge.textContent = `环境: ${env}`;
+    document.body.appendChild(envBadge);
+});
+</script>
 </body>
 </html>
